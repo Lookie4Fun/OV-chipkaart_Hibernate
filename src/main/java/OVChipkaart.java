@@ -1,9 +1,8 @@
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 
 @Entity
 @Table(name = "ov_chipkaart")
@@ -25,8 +24,12 @@ public class OVChipkaart implements Serializable {
     @Column(name="reiziger_id")
     private int reiziger_id;
 
-    @ManyToMany
-    private List<Product> producten = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "ovChipkaart",
+            cascade = CascadeType.MERGE,
+            orphanRemoval = true
+    )
+    private List<OVChipkaartProduct> producten = new ArrayList<>();
 
     public OVChipkaart(int kaart_nummer, Date geldig_tot, int klasse, int saldo, int reiziger_id){
         this.kaart_nummer = kaart_nummer;
@@ -34,21 +37,29 @@ public class OVChipkaart implements Serializable {
         this.klasse = klasse;
         this.saldo = saldo;
         this.reiziger_id = reiziger_id;
+
     }
 
     public OVChipkaart() {
+
     }
 
-    public List<Product> getProducten() {
+    public void addProduct(Product product) {
+        OVChipkaartProduct ovChipkaartProduct = new OVChipkaartProduct(this, product);
+        producten.add(ovChipkaartProduct);
+        product.getOvChipkaarten().add(ovChipkaartProduct);
+    }
+
+    public void removeProduct(Product product) {
+        OVChipkaartProduct ovChipkaartProduct = new OVChipkaartProduct(this, product);
+        product.getOvChipkaarten().remove(ovChipkaartProduct);
+        producten.remove(ovChipkaartProduct);
+        ovChipkaartProduct.setOvChipkaart(null);
+        ovChipkaartProduct.setProduct(null);
+    }
+
+    public List<OVChipkaartProduct> getProducten() {
         return producten;
-    }
-
-    public void addProduct(Product product){
-        producten.add(product);
-    }
-
-    public void removeProduct(Product product){
-        producten.remove(product);
     }
 
     public int getKaart_nummer() {
@@ -72,7 +83,6 @@ public class OVChipkaart implements Serializable {
     }
 
     public String toString(){
-        return " kaart #"+kaart_nummer+" van reiziger:"+ reiziger_id+": geldig tot "+geldig_tot+", klasse:"+klasse+", saldo: €"+saldo;
-//                +", producten"+ producten;
+        return "kaart #"+getKaart_nummer()+" van reiziger: "+getReiziger_id()+": geldig tot "+getGeldig_tot()+", klasse:"+getKlasse()+", saldo: €"+getSaldo()+", producten"+ getProducten();
     }
 }

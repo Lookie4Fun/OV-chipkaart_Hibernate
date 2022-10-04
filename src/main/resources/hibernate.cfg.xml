@@ -22,6 +22,7 @@
         <mapping class="Adres"></mapping>
         <mapping class="OVChipkaart"></mapping>
         <mapping class="Product"></mapping>
+        <mapping class="OVChipkaartProduct"></mapping>
     </session-factory>
 </hibernate-configuration>
 

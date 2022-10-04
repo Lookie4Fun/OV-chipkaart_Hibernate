@@ -1,6 +1,6 @@
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.sql.Date;
 
 
 @Entity
@@ -9,24 +9,23 @@ public class OVChipkaartProduct implements Serializable {
 
     @Id
     @ManyToOne
+    @JoinColumn(name = "kaart_nummer")
     private OVChipkaart ovChipkaart;
 
     @Id
     @ManyToOne
+    @JoinColumn(name = "product_nummer")
     private Product product;
 
-
-
-    public OVChipkaartProduct(OVChipkaart ovChipkaart, Product product ) {
-        this.product = product;
-        this.ovChipkaart = ovChipkaart;
+    public OVChipkaartProduct(OVChipkaart ovChipkaart, Product product) {
     }
-
     public OVChipkaartProduct() {
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+
+
+    public OVChipkaart getOvChipkaart() {
+        return ovChipkaart;
     }
 
     public void setOvChipkaart(OVChipkaart ovChipkaart) {
@@ -37,11 +36,11 @@ public class OVChipkaartProduct implements Serializable {
         return product;
     }
 
-    public OVChipkaart getOvChipkaart() {
-        return ovChipkaart;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public String toString(){
-        return "kaart: "+getOvChipkaart()+" product: "+getProduct();
+        return "ovChipkaart: "+getOvChipkaart().getKaart_nummer()+" product: "+getProduct().getProduct_nummer();
     }
 }
