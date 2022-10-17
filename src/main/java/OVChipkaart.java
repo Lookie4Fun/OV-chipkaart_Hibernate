@@ -85,4 +85,12 @@ public class OVChipkaart implements Serializable {
     public String toString(){
         return "kaart #"+getKaart_nummer()+" van reiziger: "+getReiziger_id()+": geldig tot "+getGeldig_tot()+", klasse:"+getKlasse()+", saldo: €"+getSaldo()+", producten"+ getProducten();
     }
+
+    public void setKlasse(int klasse) {
+        this.klasse = klasse;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
+    }
 }

@@ -59,6 +59,17 @@ public class Product implements Serializable {
         return prijs;
     }
 
+    public void setNaam(String naam) {
+        this.naam = naam;
+    }
+
+    public void setBeschrijving(String beschrijving) {
+        this.beschrijving = beschrijving;
+    }
+
+    public void setPrijs(int prijs) {
+        this.prijs = prijs;
+    }
 
     public String toString(){
         return "Product #"+getProduct_nummer()+" -"+getNaam()+" beschrijving: "+getBeschrijving()+" €"+getPrijs()+"| lijst van OVChipkaarten met dit product: "+getOvChipkaarten().toString();
